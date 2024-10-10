@@ -188,6 +188,11 @@ function buffer.watch(self)
       if self.closed then
         return true
       end
+      -- terminal 由于可能刷新过快导致奇怪的问题, 要直接禁用
+      local buftype = vim.api.nvim_buf_get_option(self.bufnr, 'buftype')
+      if buftype == 'terminal' or buftype == 'prompt' then
+        return true
+      end
 
       if old_last_line == new_last_line and first_line == new_last_line then
         -- This condition is really intended as a workaround for
