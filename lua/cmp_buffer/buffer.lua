@@ -190,7 +190,8 @@ function buffer.watch(self)
       end
       -- terminal 由于可能刷新过快导致奇怪的问题, 要直接禁用
       local buftype = vim.api.nvim_buf_get_option(self.bufnr, 'buftype')
-      if buftype == 'terminal' or buftype == 'prompt' then
+      local filetype = vim.api.nvim_get_option_value('filetype', { buf = self.bufnr })
+      if buftype == 'terminal' or buftype == 'prompt' or filetype == 'mininotify' then
         return true
       end
 
